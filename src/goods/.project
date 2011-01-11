@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Main</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.adobe.flexbuilder.project.flexbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>[source path] ChevyRay-FlashPunk-46c75be</name>
+			<type>2</type>
+			<location>/Users/evaganglbauer/Documents/3_uni/lehrveranstaltungen/game_design/ChevyRay-FlashPunk-46c75be</location>
+		</link>
+	</linkedResources>
+</projectDescription>
