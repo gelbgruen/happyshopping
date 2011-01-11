@@ -16,10 +16,13 @@ package characters
 	
 	public class Player extends Entity
 	{		
-		[Embed(source = '../graphics/player_shoppingcart.png')] private var PLAYER:Class;
 		[Embed(source = '../sounds/changedirection.mp3')] private var CHANGEDIRECTION:Class;
 		
-		public var sprPlayer:Spritemap = new Spritemap(PLAYER, 70, 70);
+		[Embed(source = '../graphics/cart_new.png')] private var CART:Class;
+		[Embed(source = '../graphics/cart_collision_map.png')] private var CART_COLLISION:Class;
+		[Embed(source = '../graphics/cart_collision_down.png')] private var CART_COLLISION_DOWN:Class;
+		
+		public var sprCart:Spritemap = new Spritemap(CART, 70, 70);
 		
 		// Movement speed (pixel / sekunde)
 		public var speed:Number = 100;
@@ -47,25 +50,20 @@ package characters
 
 		
 		public function Player() {
-			//Animationen
-			sprPlayer.add("left", [3], 5, true); 
-			sprPlayer.add("right", [0], 5, true); 
-			sprPlayer.add("up", [9], 5, true); 
-			sprPlayer.add("down", [6], 5, true);
-			sprPlayer.add("left_grab_right", [5,3], 5, false);
-			sprPlayer.add("left_grab_left", [4,3], 5, false);
-			sprPlayer.add("right_grab_right", [2,0], 5, false);
-			sprPlayer.add("right_grab_left", [1,0], 5, false);
-			sprPlayer.add("up_grab_right", [11,9], 5, false);
-			sprPlayer.add("up_grab_left", [10,9], 5, false);
-			sprPlayer.add("down_grab_right", [8,6], 5, false);
-			sprPlayer.add("down_grab_left", [7,6], 5, false);
+			sprCart.add("drive", [0], 5, true);
+			sprCart.add("grab_left", [1,0], 5, false);
+			sprCart.add("grab_right", [2,0], 5, false);
+			sprCart.centerOrigin();
 			
-			super((3 * Util.TILE_SIZE) / 2, (4 * Util.TILE_SIZE) / 2, sprPlayer);
+			super((3 * Util.TILE_SIZE) / 2, (4 * Util.TILE_SIZE) / 2, sprCart);
 			
 			//Typ und Hitbox für Kollisionen
 			type = "player";
-			setHitbox(Util.TILE_SIZE, Util.TILE_SIZE, 0, 0);
+			//setHitbox(Util.TILE_SIZE, Util.TILE_SIZE, 0, 0);
+			// pixelmask for better collision detection
+			mask = new Pixelmask(CART_COLLISION, 0 , 0);
+			// starting direction
+			direction = "right";
 		}
 		
 		override public function update():void 
@@ -93,7 +91,9 @@ package characters
 				}
 				else {
 					direction = 'right';
-					sprPlayer.play(direction);
+					mask = new Pixelmask(CART_COLLISION, 0 , 0);
+					sprCart.angle = 0;
+					sprCart.play('drive')
 				}
 			}
 			if (Input.check(Key.LEFT)) {
@@ -103,7 +103,9 @@ package characters
 				}
 				else {
 					direction = 'left';
-					sprPlayer.play(direction);
+					mask = new Pixelmask(CART_COLLISION, 0 , 0);
+					sprCart.angle = 180;
+					sprCart.play('drive')
 				}
 			}
 			if (Input.check(Key.UP)){
@@ -113,7 +115,9 @@ package characters
 				}
 				else {
 					direction = 'up';
-					sprPlayer.play(direction);
+					mask = new Pixelmask(CART_COLLISION_DOWN, 0 , 0);
+					sprCart.angle = 90;
+					sprCart.play('drive')
 				}
 			}
 			if (Input.check(Key.DOWN)) {
@@ -123,7 +127,9 @@ package characters
 				}
 				else {
 					direction = 'down';
-					sprPlayer.play(direction);
+					mask = new Pixelmask(CART_COLLISION_DOWN, 0 , 0);
+					sprCart.angle = 270;
+					sprCart.play('drive')
 				}
 			}
 			
@@ -133,27 +139,27 @@ package characters
 			}
 			
 			if (Input.pressed(Key.Q)) {
-				sprPlayer.play(direction);	// set animation to defaul driving, so a click changes to grab animation
+				sprCart.play('drive');	// set animation to defaul driving, so a click changes to grab animation
 				if (direction == "left") {
-					sprPlayer.play("left_grab_left");
+					sprCart.play("grab_left");
 					grabX = Math.round(x / Util.TILE_SIZE);
 					grabY = Math.round(y / Util.TILE_SIZE) + 1;
 					grabGood(grabX, grabY);
 				}
 				if (direction == "right") {
-					sprPlayer.play("right_grab_left");
+					sprCart.play("grab_left");
 					grabX = Math.round(x / Util.TILE_SIZE);
 					grabY = Math.round(y / Util.TILE_SIZE) - 1;
 					grabGood(grabX, grabY);
 				}
 				if (direction == "up") {
-					sprPlayer.play("up_grab_left");
+					sprCart.play("grab_left");
 					grabX = Math.round(x / Util.TILE_SIZE) + 1;
 					grabY = Math.round(y / Util.TILE_SIZE);
 					grabGood(grabX, grabY);
 				}
 				if (direction == "down") {
-					sprPlayer.play("down_grab_left");
+					sprCart.play("grab_left");
 					grabX = Math.round(x / Util.TILE_SIZE) - 1;
 					grabY = Math.round(y / Util.TILE_SIZE);
 					grabGood(grabX, grabY);
@@ -161,27 +167,27 @@ package characters
 			}
 			
 			if (Input.pressed(Key.E)) {
-				sprPlayer.play(direction);
+				sprCart.play('drive');
 				if (direction == "left") {
-					sprPlayer.play("left_grab_right");
+					sprCart.play("grab_right");
 					grabX = Math.round(x / Util.TILE_SIZE);
 					grabY = Math.round(y / Util.TILE_SIZE) - 1;
 					grabGood(grabX, grabY);
 				}
 				if (direction == "right") {
-					sprPlayer.play("right_grab_right");
+					sprCart.play("grab_right");
 					grabX = Math.round(x / Util.TILE_SIZE);
 					grabY = Math.round(y / Util.TILE_SIZE) + 1;
 					grabGood(grabX, grabY);
 				}
 				if (direction == "up") {
-					sprPlayer.play("up_grab_right");
+					sprCart.play("grab_right");
 					grabX = Math.round(x / Util.TILE_SIZE) + 1;
 					grabY = Math.round(y / Util.TILE_SIZE);
 					grabGood(grabX, grabY);
 				}
 				if (direction == "down") {
-					sprPlayer.play("down_grab_right");
+					sprCart.play("grab_right");
 					grabX = Math.round(x / Util.TILE_SIZE) - 1;
 					grabY = Math.round(y / Util.TILE_SIZE);
 					grabGood(grabX, grabY);
