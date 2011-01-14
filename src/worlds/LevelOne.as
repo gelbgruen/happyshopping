@@ -21,6 +21,7 @@ package worlds
 		
 		//only entities can be added to the stage, therefore
 		public var highscore:Highscore;
+		public var displayhighscore:DisplayHighscore;
 		
 		
 		
@@ -51,8 +52,9 @@ package worlds
 		}
 		
 		//passes the highscore object (created in the main menu to the level)
-		public function setHighscore(hs:Highscore):void {
+		public function setHighscore(hs:Highscore, dhs:DisplayHighscore):void {
 			this.highscore = hs;
+			this.displayhighscore = dhs;
 		}
 		
 		public function grab(xPos:int, yPos:int):void {

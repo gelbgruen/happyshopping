@@ -7,6 +7,7 @@ package worlds
 	{
 		
 		public var isSet:Boolean = false;
+		public var mainMenu:MainMenu;
 		
 		public function MainWrapper(ent:Entity) 
 		{

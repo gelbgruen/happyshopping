@@ -47,6 +47,7 @@ package characters
 		public var highscore:int = 0;	
 		
 		private var changeDirection:Sfx = new Sfx(CHANGEDIRECTION);
+		private var mainMenu:MainMenu;
 
 		
 		public function Player() {
@@ -241,6 +242,8 @@ package characters
 		public function grabGood(xPos:int, yPos:int):void {
 			//grabGood calls grab function in level
 			this.level.grab(xPos, yPos);
+			//every grab increases the speed
+			speedUp();
 		}
 		
 		private function speedUp():void {
@@ -252,7 +255,10 @@ package characters
 			
 			FP.world.remove(this);
 			level.stopSound();
-			FP.world = new MainWrapper(new MainMenu());
+			level.displayhighscore.addHighscore(level.highscore.getHighscore());
+			var mm:MainMenu = new MainMenu();
+			mm.setHighscore(level.displayhighscore);
+			FP.world = new MainWrapper(mm);
 		}
 		
 		public function setLevel(level:LevelOne):void {

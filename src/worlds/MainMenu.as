@@ -31,6 +31,8 @@ package worlds
 		private var player:Player;
 		private var highscore:Highscore;
 		
+		private var displayHighscore:DisplayHighscore = new DisplayHighscore();
+		
 		public function MainMenu() 
 		{
 			imgMain.x = 100;
@@ -91,17 +93,24 @@ package worlds
 					}
 					//this is to stop the sound later when player gets killed
 					player.setLevel(levelOne);
-					
-					levelOne.setHighscore(highscore);
+					levelOne.setHighscore(highscore, displayHighscore);
 					levelOne.startSound();
 					FP.world = mainGame;
 				}
 				else if (selected == "Highscore")
 				{
 					//load highscore
-					trace("highscore");
+					//trace("highscore");
+					displayHighscore.refresh();
+					var displayScore:MainWrapper = new MainWrapper(displayHighscore);
+					FP.world = displayScore;					
 				}
 			}
+		}
+		
+		public function setHighscore(hs:DisplayHighscore):void
+		{
+			displayHighscore = hs;
 		}
 		
 	}
