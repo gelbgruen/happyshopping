@@ -1,5 +1,6 @@
 package worlds 
 {
+	import flash.text.TextField;
 	import goods.*;
 	
 	import net.flashpunk.Entity;
@@ -23,9 +24,7 @@ package worlds
 		public var highscore:Highscore;
 		public var displayhighscore:DisplayHighscore;
 		
-		
-		
-		public function LevelOne() 
+		public function LevelOne()
 		{
 			TheWorld = new Tilemap(ImgTileSet, 15*Util.TILE_SIZE, 10*Util.TILE_SIZE, Util.TILE_SIZE, Util.TILE_SIZE);
 			graphic = TheWorld;

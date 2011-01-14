@@ -1,5 +1,6 @@
 package characters 
 {
+	import flash.text.TextField;
 	import flash.utils.*;
 	
 	import net.flashpunk.Entity;
@@ -48,7 +49,6 @@ package characters
 		
 		private var changeDirection:Sfx = new Sfx(CHANGEDIRECTION);
 		private var mainMenu:MainMenu;
-
 		
 		public function Player() {
 			sprCart.add("drive", [0], 5, true);
@@ -71,13 +71,17 @@ package characters
 		{
 			followPlayer();
 			
-			if (collide("walls",x,y) != null) {
+			if (collide("walls", x, y) != null) {
+				//display the highscore textfield to enter your name
+				level.highscore.displayTextfield();
+				
 				direction = 'none';
 				var exp:Explosion = new Explosion(x + Util.TILE_SIZE / 2, y + Util.TILE_SIZE / 2);
 				FP.world.remove(this);  // delete player after crash
 				FP.world.add(exp);
 				exp.destroyThis();
-				setTimeout(killPlayer, 3000); //killPlayer is executed after 3 seconds that exploasion can be seen
+				
+				//setTimeout(killPlayer, 3000); //killPlayer is executed after 3 seconds that exploasion can be seen
 			}
 
 			time += FP.elapsed;
@@ -251,8 +255,8 @@ package characters
 			time = 0;
 		}
 		
-		private function killPlayer():void {
-			
+		private function killPlayer():void 
+		{
 			FP.world.remove(this);
 			level.stopSound();
 			level.displayhighscore.addHighscore(level.highscore.getHighscore());

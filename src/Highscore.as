@@ -1,17 +1,28 @@
 package
 {
-	
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
 	import net.flashpunk.graphics.Text;
+	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Graphiclist;
+	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
 	
 	public class Highscore extends Entity
 	{
 		
 		private  var  highscore:int = 0;		
 		private var highscoreText:Text;
-		
+
+		//to display the highscore textfield
+		private var enterHighscore:Text;
+		private var display:Graphiclist;
+		private var high:Boolean = false;
+		private var inputReader:KeyboardInputReader;
+		private var started:Boolean = false;
+		private var input:String;
+		private var inputText:Text;
 		
 		public function Highscore() 
 		{
@@ -40,6 +51,51 @@ package
 			super.update();
 			highscoreText.text = highscore + "$";
 			highscoreText.update();
+			
+			if (high == true)
+			{
+				if (Input.pressed(Key.ENTER))
+				{
+					trace("HIGHSCORE EINGABE BEENDEN");
+				}
+				
+				inputReader.update();
+				if (inputReader.first == false) {
+					if (started == false) {
+						input = inputReader.getString();
+						started = true;
+						displayTextfield();
+						trace(input);
+					}
+					else {
+						if (input != inputReader.getString()) {
+							input = inputReader.getString();
+							displayTextfield();
+							trace(inputReader.getString());
+						}
+					}
+					
+				}
+			}
+		}
+		
+		public function displayTextfield():void
+		{
+			if (started == true) {
+				inputText = new Text(input, FP.halfWidth - 110, FP.halfHeight + 50, 300, 100);
+				inputText.color = 0x000000;
+				inputText.size = 20;
+				graphic = new Graphiclist(enterHighscore, inputText);
+			}
+			else {
+				high = true;
+				inputReader = new KeyboardInputReader();
+				enterHighscore = new Text("Your score is "+highscore+"\nPlease enter your name", FP.halfWidth - 110, FP.halfHeight, 300, 100);
+				enterHighscore.color = 0x000000;
+				enterHighscore.size = 20;
+				graphic = enterHighscore;
+			}
+			graphic.update();
 		}
 	}
 }
