@@ -5,6 +5,7 @@ package
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	
+	//Input Reader listens to the keyboard input
 	public class KeyboardInputReader extends Entity
 	{
 		

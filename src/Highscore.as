@@ -63,7 +63,6 @@ package
 				if (Input.pressed(Key.ENTER))
 				{
 					level.displayhighscore.addHighscore(getHighscore(), inputReader.getString());
-					trace("HIGHSCORE EINGABE BEENDEN");
 					
 					FP.world.remove(this);
 					level.stopSound();
@@ -72,27 +71,25 @@ package
 					mm.setHighscore(level.displayhighscore);
 					FP.world = new MainWrapper(mm);
 				}
-				
+				// input reader to get the name to the highscore
 				inputReader.update();
 				if (inputReader.first == false) {
 					if (started == false) {
 						input = inputReader.getString();
 						started = true;
 						displayTextfield(level);
-						trace(input);
 					}
 					else {
 						if (input != inputReader.getString()) {
 							input = inputReader.getString();
 							displayTextfield(level);
-							trace(inputReader.getString());
 						}
 					}
 					
 				}
 			}
 		}
-		
+
 		public function displayTextfield(level:LevelOne):void
 		{
 			this.level = level;
