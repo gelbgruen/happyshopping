@@ -8,6 +8,9 @@ package
 	import net.flashpunk.graphics.Graphiclist;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import worlds.LevelOne;
+	import worlds.MainMenu;
+	import worlds.MainWrapper;
 	
 	public class Highscore extends Entity
 	{
@@ -23,6 +26,9 @@ package
 		private var started:Boolean = false;
 		private var input:String;
 		private var inputText:Text;
+		
+		//to store the highscore and name
+		private var level:LevelOne;
 		
 		public function Highscore() 
 		{
@@ -56,7 +62,15 @@ package
 			{
 				if (Input.pressed(Key.ENTER))
 				{
+					level.displayhighscore.addHighscore(getHighscore(), inputReader.getString());
 					trace("HIGHSCORE EINGABE BEENDEN");
+					
+					FP.world.remove(this);
+					level.stopSound();
+					
+					var mm:MainMenu = new MainMenu();
+					mm.setHighscore(level.displayhighscore);
+					FP.world = new MainWrapper(mm);
 				}
 				
 				inputReader.update();
@@ -64,13 +78,13 @@ package
 					if (started == false) {
 						input = inputReader.getString();
 						started = true;
-						displayTextfield();
+						displayTextfield(level);
 						trace(input);
 					}
 					else {
 						if (input != inputReader.getString()) {
 							input = inputReader.getString();
-							displayTextfield();
+							displayTextfield(level);
 							trace(inputReader.getString());
 						}
 					}
@@ -79,8 +93,9 @@ package
 			}
 		}
 		
-		public function displayTextfield():void
+		public function displayTextfield(level:LevelOne):void
 		{
+			this.level = level;
 			if (started == true) {
 				inputText = new Text(input, FP.halfWidth - 110, FP.halfHeight + 50, 300, 100);
 				inputText.color = 0x000000;

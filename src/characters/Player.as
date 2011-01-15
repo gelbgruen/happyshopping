@@ -72,15 +72,15 @@ package characters
 			followPlayer();
 			
 			if (collide("walls", x, y) != null) {
-				//display the highscore textfield to enter your name
-				level.highscore.displayTextfield();
-				
 				direction = 'none';
 				var exp:Explosion = new Explosion(x + Util.TILE_SIZE / 2, y + Util.TILE_SIZE / 2);
 				FP.world.remove(this);  // delete player after crash
 				FP.world.add(exp);
 				exp.destroyThis();
 				
+				//display the highscore textfield to enter your name
+				level.highscore.displayTextfield(level);
+				//level.displayhighscore.addHighscore(level.highscore.getHighscore());
 				//setTimeout(killPlayer, 3000); //killPlayer is executed after 3 seconds that exploasion can be seen
 			}
 
@@ -259,7 +259,7 @@ package characters
 		{
 			FP.world.remove(this);
 			level.stopSound();
-			level.displayhighscore.addHighscore(level.highscore.getHighscore());
+			
 			var mm:MainMenu = new MainMenu();
 			mm.setHighscore(level.displayhighscore);
 			FP.world = new MainWrapper(mm);

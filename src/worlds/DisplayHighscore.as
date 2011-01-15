@@ -9,15 +9,17 @@ package worlds
 	{
 		
 		private var highscores:Array = new Array();
+		private var names:Array = new Array();
 		private static var explainText:Text = new Text("Highscores", FP.halfWidth - 100, 40,150,60);
 		private static var highscoreText:Text;
 		explainText.color = 0x33CC66;
 		explainText.size = 30;
 		private var display:Graphiclist;
 		
-		public function addHighscore(hs:int):void
+		public function addHighscore(hs:int, name:String):void
 		{
 			highscores.push(hs);
+			names.push(name);
 		}
 		
 		public function refresh():void
@@ -41,6 +43,8 @@ package worlds
 				for (i = 0; i < highscores.length; i++)
 				{
 					hsText += highscores[i];
+					hsText += " ";
+					hsText += names[i];
 					hsText += "\n";
 				}
 			}
